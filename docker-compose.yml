@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  orchestrator:
+    build: ./orchestrator
+    ports:
+      - "8080:8080"
+    environment:
+      TIME_ADDITION_MS: 1000
+      TIME_SUBTRACTION_MS: 1000
+      TIME_MULTIPLICATIONS_MS: 2000
+      TIME_DIVISIONS_MS: 2000
+    networks:
+      - calc-net
+
+  agent:
+    build: ./agent
+    environment:
+      COMPUTING_POWER: 4
+    depends_on:
+      - orchestrator
+    networks:
+      - calc-net
+
+networks:
+  calc-net:
+    driver: bridge
